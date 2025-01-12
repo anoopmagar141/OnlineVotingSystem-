@@ -93,6 +93,29 @@ if (isset($_GET['results'])) {
     <input type="hidden" name="admin_action" value="add_candidate">
     <button type="submit">Add Candidate</button>
 </form>
-
+<!-- Voter Panel -->
+<h2>Voter Panel</h2>
+    <form method="POST">
+        <h3>Cast Your Vote</h3>
+        <select name="election_id" required>
+            <option value="" disabled selected>Select Election</option>
+            <?php
+            $elections = $conn->query("SELECT * FROM elections");
+            while ($row = $elections->fetch_assoc()) {
+                echo "<option value='" . $row['election_id'] . "'>" . $row['election_name'] . "</option>";
+            }
+            ?>
+        </select>
+        <select name="candidate_id" required>
+            <option value="" disabled selected>Select Candidate</option>
+            <?php
+            $candidates = $conn->query("SELECT * FROM candidates");
+            while ($row = $candidates->fetch_assoc()) {
+                echo "<option value='" . $row['candidate_id'] . "'>" . $row['candidate_name'] . "</option>";
+            }
+            ?>
+        </select>
+        <button type="submit" name="vote">Vote</button>
+    </form>
 </body>
 </html>
