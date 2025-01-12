@@ -35,7 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $check_vote = $conn->query("SELECT has_voted FROM users WHERE user_id = $user_id");
         $has_voted = $check_vote->fetch_assoc()['has_voted'];
 
-       
+        if ($has_voted == 1) {
+            echo "You have already voted!";
+        } else {
+            // Update candidate vote count
+            $conn->query("UPDATE candidates SET votes = votes + 1 WHERE candidate_id = $candidate_id");
+            $conn->query("UPDATE users SET has_voted = 1 WHERE user_id = $user_id");
+            echo "Vote cast successfully!";
+        }   
     }
 }
 
