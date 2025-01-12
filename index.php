@@ -117,5 +117,20 @@ if (isset($_GET['results'])) {
         </select>
         <button type="submit" name="vote">Vote</button>
     </form>
+
+    <!-- View Results -->
+    <h2>View Results</h2>
+    <form method="GET">
+        <select name="results" required>
+            <option value="" disabled selected>Select Election</option>
+            <?php
+            $elections = $conn->query("SELECT * FROM elections");
+            while ($row = $elections->fetch_assoc()) {
+                echo "<option value='" . $row['election_id'] . "'>" . $row['election_name'] . "</option>";
+            }
+            ?>
+        </select>
+        <button type="submit">View Results</button>
+    </form>
 </body>
 </html>
