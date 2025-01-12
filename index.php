@@ -45,5 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }   
     }
 }
-
+// Display results dynamically
+if (isset($_GET['results'])) {
+    $election_id = $_GET['results'];
+    $results = $conn->query("SELECT candidate_name, votes FROM candidates WHERE election_id = $election_id");
+    echo "<h3>Election Results</h3>";
+    while ($row = $results->fetch_assoc()) {
+        echo $row['candidate_name'] . ": " . $row['votes'] . " votes<br>";
+    }
+    exit();
+}
+?>
 ?>
