@@ -24,4 +24,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $conn->query("INSERT INTO candidates (election_id, candidate_name) VALUES ('$election_id', '$candidate_name')");
             echo "Candidate added successfully!";
         }
+        
+    } elseif (isset($_POST['vote'])) {
+        // Voter: Cast a vote
+        $election_id = $_POST['election_id'];
+        $candidate_id = $_POST['candidate_id'];
+        $user_id = $_SESSION['user_id'];
+
+        // Check if user already voted
+        $check_vote = $conn->query("SELECT has_voted FROM users WHERE user_id = $user_id");
+        $has_voted = $check_vote->fetch_assoc()['has_voted'];
+
+       
+    }
+}
+
 ?>
