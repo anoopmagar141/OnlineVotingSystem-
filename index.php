@@ -62,9 +62,37 @@ if (isset($_GET['results'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Online voting System</title>
 </head>
 <body>
-    
+<h1>Online Voting System</h1>
+
+<!-- Admin Panel -->
+<h2>Admin Panel</h2>
+<form method="POST">
+    <h3>Add Election</h3>
+    <input type="text" name="election_name" placeholder="Election Name" required>
+    <input type="date" name="start_date" required>
+    <input type="date" name="end_date" required>
+    <input type="hidden" name="admin_action" value="add_election">
+    <button type="submit">Add Election</button>
+</form>
+
+<form method="POST">
+    <h3>Add Candidate</h3>
+    <select name="election_id" required>
+        <option value="" disabled selected>Select Election</option>
+        <?php
+        $elections = $conn->query("SELECT * FROM elections");
+        while ($row = $elections->fetch_assoc()) {
+            echo "<option value='" . $row['election_id'] . "'>" . $row['election_name'] . "</option>";
+        }
+        ?>
+    </select>
+    <input type="text" name="candidate_name" placeholder="Candidate Name" required>
+    <input type="hidden" name="admin_action" value="add_candidate">
+    <button type="submit">Add Candidate</button>
+</form>
+
 </body>
 </html>
