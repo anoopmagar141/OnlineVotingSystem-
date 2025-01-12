@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $conn->query("INSERT INTO candidates (election_id, candidate_name) VALUES ('$election_id', '$candidate_name')");
             echo "Candidate added successfully!";
         }
-        
     } elseif (isset($_POST['vote'])) {
         // Voter: Cast a vote
         $election_id = $_POST['election_id'];
@@ -42,9 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $conn->query("UPDATE candidates SET votes = votes + 1 WHERE candidate_id = $candidate_id");
             $conn->query("UPDATE users SET has_voted = 1 WHERE user_id = $user_id");
             echo "Vote cast successfully!";
-        }   
+        }
     }
 }
+
 // Display results dynamically
 if (isset($_GET['results'])) {
     $election_id = $_GET['results'];
@@ -62,39 +62,40 @@ if (isset($_GET['results'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online voting System</title>
+    <title>Online Voting System</title>
 </head>
 <body>
-<h1>Online Voting System</h1>
+    <h1>Online Voting System</h1>
 
-<!-- Admin Panel -->
-<h2>Admin Panel</h2>
-<form method="POST">
-    <h3>Add Election</h3>
-    <input type="text" name="election_name" placeholder="Election Name" required>
-    <input type="date" name="start_date" required>
-    <input type="date" name="end_date" required>
-    <input type="hidden" name="admin_action" value="add_election">
-    <button type="submit">Add Election</button>
-</form>
+    <!-- Admin Panel -->
+    <h2>Admin Panel</h2>
+    <form method="POST">
+        <h3>Add Election</h3>
+        <input type="text" name="election_name" placeholder="Election Name" required>
+        <input type="date" name="start_date" required>
+        <input type="date" name="end_date" required>
+        <input type="hidden" name="admin_action" value="add_election">
+        <button type="submit">Add Election</button>
+    </form>
 
-<form method="POST">
-    <h3>Add Candidate</h3>
-    <select name="election_id" required>
-        <option value="" disabled selected>Select Election</option>
-        <?php
-        $elections = $conn->query("SELECT * FROM elections");
-        while ($row = $elections->fetch_assoc()) {
-            echo "<option value='" . $row['election_id'] . "'>" . $row['election_name'] . "</option>";
-        }
-        ?>
-    </select>
-    <input type="text" name="candidate_name" placeholder="Candidate Name" required>
-    <input type="hidden" name="admin_action" value="add_candidate">
-    <button type="submit">Add Candidate</button>
-</form>
-<!-- Voter Panel -->
-<h2>Voter Panel</h2>
+    <form method="POST">
+        <h3>Add Candidate</h3>
+        <select name="election_id" required>
+            <option value="" disabled selected>Select Election</option>
+            <?php
+            $elections = $conn->query("SELECT * FROM elections");
+            while ($row = $elections->fetch_assoc()) {
+                echo "<option value='" . $row['election_id'] . "'>" . $row['election_name'] . "</option>";
+            }
+            ?>
+        </select>
+        <input type="text" name="candidate_name" placeholder="Candidate Name" required>
+        <input type="hidden" name="admin_action" value="add_candidate">
+        <button type="submit">Add Candidate</button>
+    </form>
+
+    <!-- Voter Panel -->
+    <h2>Voter Panel</h2>
     <form method="POST">
         <h3>Cast Your Vote</h3>
         <select name="election_id" required>
